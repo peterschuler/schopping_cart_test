@@ -19,7 +19,6 @@ class ShoppingCartOverviewServiceTest {
         shoppingCartOverviewService = new ShoppingCartOverviewService();
     }
 
-
     @Test
     void should_return_a_product_that_was_in_the_input() {
 
@@ -31,7 +30,4 @@ class ShoppingCartOverviewServiceTest {
         assertThat(output).isNotNull();
         assertThat(output.getProducts()).isNotEmpty();
     }
-
-
-
 }
