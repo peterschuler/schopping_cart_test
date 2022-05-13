@@ -1,16 +1,18 @@
 package org.demo.microservice.schoppingcart.schoppingcartapp.core.output;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+@Builder
 public class ShoppingCartOverview {
 
-    List<ProductInformation> productInformation;
+    private final List<ProductInformation> products;
 
-    public ShoppingCartOverview(List<ProductInformation> productInformation) {
-        this.productInformation = productInformation;
-    }
-
-    public List<ProductInformation> getProducts() {
-        return productInformation;
-    }
+    private final BigDecimal totalAmount;
 }

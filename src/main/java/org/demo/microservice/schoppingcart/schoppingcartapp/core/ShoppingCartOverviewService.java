@@ -1,5 +1,6 @@
 package org.demo.microservice.schoppingcart.schoppingcartapp.core;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,16 +12,21 @@ import org.demo.microservice.schoppingcart.schoppingcartapp.core.output.Shopping
 public class ShoppingCartOverviewService {
 
     public ShoppingCartOverview generateShoppingCartOverview(ShoppingCartData input) {
-        ShoppingCartOverview shoppingCartOverview = new ShoppingCartOverview(mapTo(input.getProducts()));
+        return ShoppingCartOverview.builder()
+                .products(mapTo(input.getProducts()))
+                .totalAmount(calculateTotal(input.getProducts()))
+                .build();
+    }
 
-        return shoppingCartOverview;
+    private BigDecimal calculateTotal(List<Product> products) {
+        return products.stream()
+                .map(p -> p.getSellPrice().amount())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     private List<ProductInformation> mapTo(List<Product> products) {
         return products.stream()
-                .map(p -> {
-                    return new ProductInformation();
-                })
+                .map(p ->  new ProductInformation(p.getName(), p.getId(), p.getListPrice(), p.getSellPrice(), p.getCategory()))
                 .collect(Collectors.toList());
     }
 
