@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.input.ShoppingCartData;
-import org.demo.microservice.schoppingcart.schoppingcartapp.core.mappers.ProductsInformationMapper;
+import org.demo.microservice.schoppingcart.schoppingcartapp.core.mappers.ProductInformationMapper;
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.mappers.TotalAmountMapper;
+import org.demo.microservice.schoppingcart.schoppingcartapp.core.output.ProductInformation;
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.output.ShoppingCartOverview;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class ShoppingCartOverviewService {
 
     @Autowired
-    private final ProductsInformationMapper productsInformationMapper;
+    private final ProductInformationMapper productsInformationMapper;
 
     @Autowired
     private final TotalAmountMapper totalAmountMapper;
@@ -32,9 +33,15 @@ public class ShoppingCartOverviewService {
         products.forEach(totalAmountResult::addProductPriceToTotals);
 
         return ShoppingCartOverview.builder()
-                .products(productsInformationMapper.map(products))
+                .products(toProducts(products))
                 .totals(totalAmountMapper.map(totalAmountResult))
                 .build();
+    }
+
+    private List<ProductInformation> toProducts(List<ProductResult> products) {
+        return products.stream()
+                .map(productsInformationMapper::map)
+                .collect(Collectors.toList());
     }
 
     private List<ProductResult> toInteralProducts(ShoppingCartData input) {

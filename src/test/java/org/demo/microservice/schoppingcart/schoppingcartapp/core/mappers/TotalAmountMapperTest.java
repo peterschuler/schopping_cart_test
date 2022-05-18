@@ -1,6 +1,7 @@
 package org.demo.microservice.schoppingcart.schoppingcartapp.core.mappers;
 
 import static java.math.BigDecimal.valueOf;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.refEq;
@@ -26,7 +27,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class TotalAmountMapperTest {
 
-    @Mock()
+    @Mock
     private MoneyAmountMapper moneyAmountMapperMock;
 
     @InjectMocks
@@ -43,10 +44,10 @@ class TotalAmountMapperTest {
 
         var result = mapper.map(totalAmountResult);
 
-        Assertions.assertThat(result.getTotalSellPriceAmount().amount()).isEqualByComparingTo(valueOf(20));
-        Assertions.assertThat(result.getTotalListPriceAmount().amount()).isEqualByComparingTo(valueOf(20));
-        Assertions.assertThat(result.getTotalSellPriceAmount().amount()).isEqualByComparingTo(valueOf(20));
-        Assertions.assertThat(result.getOverallDiscountAmountPercentage()).isEqualByComparingTo(valueOf(1000));
+        assertThat(result.getTotalSellPriceAmount().amount()).isEqualByComparingTo(valueOf(20));
+        assertThat(result.getTotalListPriceAmount().amount()).isEqualByComparingTo(valueOf(20));
+        assertThat(result.getTotalSellPriceAmount().amount()).isEqualByComparingTo(valueOf(20));
+        assertThat(result.getOverallDiscountAmountPercentage()).isEqualByComparingTo(valueOf(1000));
     }
 
     @Test
@@ -64,10 +65,10 @@ class TotalAmountMapperTest {
 
         var info = mapper.map(result);
 
-        Assertions.assertThat(info.getTotalSellPriceAmount().amount()).isEqualByComparingTo(valueOf(2));
-        Assertions.assertThat(info.getTotalListPriceAmount().amount()).isEqualByComparingTo(valueOf(1));
-        Assertions.assertThat(info.getTotalAmountToBePaid().amount()).isEqualByComparingTo(valueOf(3));
-        Assertions.assertThat(info.getOverallDiscountAmountPercentage()).isEqualByComparingTo(valueOf(4));
+        assertThat(info.getTotalSellPriceAmount().amount()).isEqualByComparingTo(valueOf(2));
+        assertThat(info.getTotalListPriceAmount().amount()).isEqualByComparingTo(valueOf(1));
+        assertThat(info.getTotalAmountToBePaid().amount()).isEqualByComparingTo(valueOf(3));
+        assertThat(info.getOverallDiscountAmountPercentage()).isEqualByComparingTo(valueOf(4));
     }
 
 }
