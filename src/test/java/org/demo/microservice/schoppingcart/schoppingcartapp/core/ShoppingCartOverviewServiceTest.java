@@ -9,15 +9,19 @@ import org.demo.microservice.schoppingcart.schoppingcartapp.core.input.ShoppingC
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.output.ShoppingCartOverview;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = ShoppingCartOverviewServiceTest.TestConfig.class)
 class ShoppingCartOverviewServiceTest {
 
+    @Autowired
     private ShoppingCartOverviewService shoppingCartOverviewService;
-
-    @BeforeEach
-    void beforeEach() {
-        shoppingCartOverviewService = new ShoppingCartOverviewService();
-    }
 
     @Test
     void should_return_a_sinlge_product_that_was_in_the_input() {
@@ -52,9 +56,11 @@ class ShoppingCartOverviewServiceTest {
                 .withSellPrice(valueOf(5.99))
                 .build());
         input.addProduct(new ProductTestBuilder()
-                .withName("My first phone").build());
+                .withName("My first phone")
+                .build());
         input.addProduct(new ProductTestBuilder()
-                .withName("My first toy").build());
+                .withName("My first toy")
+                .build());
 
         ShoppingCartOverview output = shoppingCartOverviewService.generateShoppingCartOverview(input);
 
@@ -64,5 +70,11 @@ class ShoppingCartOverviewServiceTest {
         assertThat(output.getProducts().get(1).getName()).isEqualTo("My first phone");
         assertThat(output.getProducts().get(2).getName()).isEqualTo("My first toy");
         assertThat(output.getTotalAmount()).isEqualTo(valueOf(6.99))      ;
+    }
+
+    @ComponentScan(value = {
+            "org.demo.microservice.schoppingcart.schoppingcartapp.core" })
+    public static class TestConfig {
+
     }
 }

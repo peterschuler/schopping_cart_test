@@ -8,8 +8,17 @@ import org.demo.microservice.schoppingcart.schoppingcartapp.core.input.Product;
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.input.ShoppingCartData;
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.output.ProductInformation;
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.output.ShoppingCartOverview;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import lombok.RequiredArgsConstructor;
+
+@Component
+@RequiredArgsConstructor
 public class ShoppingCartOverviewService {
+
+    @Autowired
+    private final ProductInformationMapper productInformationMapper;
 
     public ShoppingCartOverview generateShoppingCartOverview(ShoppingCartData input) {
         return ShoppingCartOverview.builder()
@@ -26,7 +35,7 @@ public class ShoppingCartOverviewService {
 
     private List<ProductInformation> mapTo(List<Product> products) {
         return products.stream()
-                .map(p ->  new ProductInformation(p.getName(), p.getId(), p.getListPrice(), p.getSellPrice(), p.getCategory()))
+                .map(productInformationMapper::map)
                 .collect(Collectors.toList());
     }
 
