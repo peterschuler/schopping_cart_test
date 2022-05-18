@@ -15,6 +15,6 @@ public class TotalsInformation {
 
     private final MoneyAmount totalSellPriceAmount;
 
-    private final BigDecimal overallDiscountAmount;
+    private final BigDecimal overallDiscountAmountPercentage;
 
 }

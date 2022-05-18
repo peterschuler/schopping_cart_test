@@ -7,12 +7,10 @@ import static org.demo.microservice.schoppingcart.schoppingcartapp.core.input.Pr
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.input.ProductTestBuilder;
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.input.ShoppingCartData;
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.output.ShoppingCartOverview;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -45,7 +43,10 @@ class ShoppingCartOverviewServiceTest {
         assertThat(output.getProducts().get(0).getProductCategory()).isEqualTo(TOYS);
         assertThat(output.getProducts().get(0).getDiscountPercentage()).isEqualByComparingTo(valueOf(90.90));
 
-        assertThat(output.getTotalAmount()).isEqualTo(valueOf(9.99));
+        assertThat(output.getTotals().getTotalAmountToBePaid().amount()).isEqualTo(valueOf(9.99));
+        assertThat(output.getTotals().getTotalListPriceAmount().amount()).isEqualTo(valueOf(10.99));
+        assertThat(output.getTotals().getTotalSellPriceAmount().amount()).isEqualTo(valueOf(9.99));
+        assertThat(output.getTotals().getOverallDiscountAmountPercentage()).isEqualByComparingTo(valueOf(90.90));
     }
 
     @Test
@@ -54,7 +55,7 @@ class ShoppingCartOverviewServiceTest {
         ShoppingCartData input = new ShoppingCartData();
         input.addProduct(new ProductTestBuilder()
                 .withName("My first book")
-                .withSellPrice(valueOf(5.99))
+                .withListPrice(valueOf(5.99))
                 .build());
         input.addProduct(new ProductTestBuilder()
                 .withName("My first phone")
@@ -70,7 +71,11 @@ class ShoppingCartOverviewServiceTest {
         assertThat(output.getProducts().get(0).getName()).isEqualTo("My first book");
         assertThat(output.getProducts().get(1).getName()).isEqualTo("My first phone");
         assertThat(output.getProducts().get(2).getName()).isEqualTo("My first toy");
-        assertThat(output.getTotalAmount()).isEqualTo(valueOf(6.99))      ;
+
+        assertThat(output.getTotals().getTotalAmountToBePaid().amount()).isEqualTo(valueOf(1.5));
+        assertThat(output.getTotals().getTotalListPriceAmount().amount()).isEqualTo(valueOf(7.99));
+        assertThat(output.getTotals().getTotalSellPriceAmount().amount()).isEqualTo(valueOf(1.5));
+        assertThat(output.getTotals().getOverallDiscountAmountPercentage()).isEqualByComparingTo(valueOf(18.80));
     }
 
     @ComponentScan(value = {
