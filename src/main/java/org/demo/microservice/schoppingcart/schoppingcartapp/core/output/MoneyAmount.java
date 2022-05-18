@@ -13,4 +13,8 @@ public class MoneyAmount {
     public BigDecimal amount() {
         return amount;
     }
+
+    public BigDecimal getAmount() {
+        return amount();
+    }
 }

@@ -22,7 +22,7 @@ class ShoppingCartOverviewServiceTest {
     private ShoppingCartOverviewService shoppingCartOverviewService;
 
     @Test
-    void should_return_a_sinlge_product_that_was_in_the_input() {
+    void should_return_a_single_product_that_was_in_the_input() {
 
         ShoppingCartData input = new ShoppingCartData();
         input.addProduct(new ProductTestBuilder()
