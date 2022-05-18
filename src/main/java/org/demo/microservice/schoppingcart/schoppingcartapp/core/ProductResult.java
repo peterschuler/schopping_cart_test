@@ -9,9 +9,9 @@ import org.demo.microservice.schoppingcart.schoppingcartapp.core.input.Product;
 
 public class ProductResult {
 
-    private Product inputProduct;
+    private final Product inputProduct;
 
-    ProductResult(Product originalInput) {
+    public ProductResult(Product originalInput) {
         this.inputProduct = originalInput;
     }
 
