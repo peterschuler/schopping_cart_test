@@ -14,5 +14,7 @@ public class ShoppingCartOverview {
 
     private final List<ProductInformation> products;
 
+    private final TotalsInformation totals;
+
     private final BigDecimal totalAmount;
 }

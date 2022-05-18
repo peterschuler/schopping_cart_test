@@ -43,6 +43,7 @@ class ShoppingCartOverviewServiceTest {
         assertThat(output.getProducts().get(0).getListPrice()).isEqualTo(valueOf(10.99));
         assertThat(output.getProducts().get(0).getSellPrice()).isEqualTo(valueOf(9.99));
         assertThat(output.getProducts().get(0).getProductCategory()).isEqualTo(TOYS);
+        assertThat(output.getProducts().get(0).getDiscountPercentage()).isEqualByComparingTo(valueOf(90.90));
 
         assertThat(output.getTotalAmount()).isEqualTo(valueOf(9.99));
     }

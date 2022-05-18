@@ -16,12 +16,19 @@ public class ProductInformation {
 
     private final ProductCategory productCategory;
 
-    public ProductInformation(String name, String id, MoneyAmount listPrice, MoneyAmount sellPrice, ProductCategory productCategory) {
+    private final BigDecimal discountPercentage;
+
+    public ProductInformation(String name, String id, MoneyAmount listPrice, MoneyAmount sellPrice, ProductCategory productCategory, BigDecimal discountPercentage) {
         this.name = name;
         this.id = id;
         this.listPrice = listPrice;
         this.sellPrice = sellPrice;
         this.productCategory = productCategory;
+        this.discountPercentage = discountPercentage;
+    }
+
+    public BigDecimal getDiscountPercentage() {
+        return discountPercentage;
     }
 
     public String getId() {
