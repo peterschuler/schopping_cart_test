@@ -4,6 +4,7 @@ import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.demo.microservice.schoppingcart.schoppingcartapp.core.input.ProductCategory.TOYS;
 
+import org.demo.microservice.schoppingcart.schoppingcartapp.core.input.ProductCategory;
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.input.ProductTestBuilder;
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.input.ShoppingCartData;
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.output.ShoppingCartOverview;
@@ -76,6 +77,38 @@ class ShoppingCartOverviewServiceTest {
         assertThat(output.getTotals().getTotalListPriceAmount().amount()).isEqualTo(valueOf(7.99));
         assertThat(output.getTotals().getTotalSellPriceAmount().amount()).isEqualTo(valueOf(1.5));
         assertThat(output.getTotals().getOverallDiscountAmountPercentage()).isEqualByComparingTo(valueOf(18.80));
+    }
+
+    @Test
+    void test_that_when_a_customer_has_category_reduction_for_toys_these_are_calculated() {
+        ShoppingCartData input = new ShoppingCartData();
+        input.setCustomerId("customer-1");
+        input.addProduct(new ProductTestBuilder()
+                .withName("My first book")
+                .withListPrice(valueOf(5.99))
+                .withCategory(ProductCategory.BOOKS)
+                .build());
+        input.addProduct(new ProductTestBuilder()
+                .withName("My first phone")
+                .withCategory(TOYS)
+                .withSellPrice(valueOf(100))
+                .withListPrice(valueOf(100))
+                .build());
+        input.addProduct(new ProductTestBuilder()
+                .withName("My first toy")
+                .withCategory(TOYS)
+                .withSellPrice(valueOf(100))
+                .withListPrice(valueOf(100))
+                .build());
+
+        ShoppingCartOverview output = shoppingCartOverviewService.generateShoppingCartOverview(input);
+
+        assertThat(output).isNotNull();
+
+        assertThat(output.getTotals().getTotalAmountToBePaid().amount()).isEqualTo(valueOf(100.5));
+        assertThat(output.getTotals().getTotalListPriceAmount().amount()).isEqualTo(valueOf(205.99));
+        assertThat(output.getTotals().getTotalSellPriceAmount().amount()).isEqualTo(valueOf(100.5));
+//        assertThat(output.getTotals().getOverallDiscountAmountPercentage()).isEqualByComparingTo(valueOf(97.30));
     }
 
     @ComponentScan(value = {

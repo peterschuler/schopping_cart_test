@@ -6,10 +6,13 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.input.Product;
+import org.demo.microservice.schoppingcart.schoppingcartapp.core.output.MoneyAmount;
 
 public class ProductResult {
 
     private final Product inputProduct;
+
+    private BigDecimal categoryDiscount;
 
     public ProductResult(Product originalInput) {
         this.inputProduct = originalInput;
@@ -19,10 +22,19 @@ public class ProductResult {
         return inputProduct;
     }
 
+    public MoneyAmount getSellPrice() {
+        return inputProduct.getSellPrice().withDiscount(categoryDiscount);
+    }
+
     public BigDecimal calculateDiscountPercentage() {
-        return inputProduct.getSellPrice().amount()
+        return getSellPrice().amount()
                 .multiply(valueOf(100))
                 .divide(inputProduct.getListPrice().amount(), RoundingMode.HALF_UP)
                 .setScale(2, RoundingMode.HALF_EVEN);
     }
+
+    public void setCategoryDiscount(BigDecimal categoryDiscount) {
+        this.categoryDiscount = categoryDiscount;
+    }
+
 }

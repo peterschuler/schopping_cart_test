@@ -43,7 +43,7 @@ public class ProductTestBuilder {
         return this;
     }
 
-    public ProductTestBuilder setCategory(ProductCategory category) {
+    public ProductTestBuilder withCategory(ProductCategory category) {
         this.category = category;
         return this;
     }

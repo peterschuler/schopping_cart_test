@@ -17,4 +17,11 @@ public class MoneyAmount {
     public BigDecimal getAmount() {
         return amount();
     }
+
+    public MoneyAmount withDiscount(BigDecimal categoryDiscount) {
+        if (categoryDiscount == null) {
+            return this;
+        }
+        return new MoneyAmount(amount.multiply(categoryDiscount));
+    }
 }

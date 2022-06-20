@@ -3,6 +3,10 @@ package org.demo.microservice.schoppingcart.schoppingcartapp.core;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.demo.microservice.schoppingcart.schoppingcartapp.clientdataservice.CustomerServiceImpl;
+import org.demo.microservice.schoppingcart.schoppingcartapp.core.clientdiscountdata.CategoryDiscount;
+import org.demo.microservice.schoppingcart.schoppingcartapp.core.clientdiscountdata.CustomerData;
+import org.demo.microservice.schoppingcart.schoppingcartapp.core.clientdiscountdata.CustomerService;
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.input.ShoppingCartData;
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.mappers.ProductInformationMapper;
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.mappers.TotalAmountMapper;
@@ -17,15 +21,27 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ShoppingCartOverviewService {
 
-    @Autowired
     private final ProductInformationMapper productsInformationMapper;
 
-    @Autowired
+    private final CustomerService customerService = new CustomerServiceImpl();
+
     private final TotalAmountMapper totalAmountMapper;
 
     public ShoppingCartOverview generateShoppingCartOverview(ShoppingCartData input) {
 
         List<ProductResult> products = toInteralProducts(input);
+
+        CustomerData d;
+
+        if (input.customerId() != null) {
+            d = customerService.getCustomerData();
+
+            for (CategoryDiscount categoryDiscount : d.getCategoryDiscountList()) {
+                products.stream()
+                        .filter(p -> p.getInputProduct().getCategory().equals(categoryDiscount.getCategory()))
+                        .forEach(p -> p.setCategoryDiscount(categoryDiscount.getDiscountPercentage()));
+            }
+        }
 
         TotalAmountResult
                 totalAmountResult = new TotalAmountResult();

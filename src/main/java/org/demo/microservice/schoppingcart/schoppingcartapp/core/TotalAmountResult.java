@@ -17,9 +17,9 @@ public class TotalAmountResult {
     private BigDecimal totalSellPriceAmount = BigDecimal.ZERO;
 
     public void addProductPriceToTotals(ProductResult p) {
-        totalAmountToBePaid = totalAmountToBePaid.add(p.getInputProduct().getSellPrice().amount());
+        totalAmountToBePaid = totalAmountToBePaid.add(p.getSellPrice().amount());
         totalListPriceAmount = totalListPriceAmount.add(p.getInputProduct().getListPrice().amount());
-        totalSellPriceAmount = totalSellPriceAmount.add(p.getInputProduct().getSellPrice().amount());
+        totalSellPriceAmount = totalSellPriceAmount.add(p.getSellPrice().amount());
     }
 
     public BigDecimal getTotalDiscountAmount() {
