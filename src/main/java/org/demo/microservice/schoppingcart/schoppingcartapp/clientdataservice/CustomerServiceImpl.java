@@ -17,11 +17,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerData getCustomerData() {
 
-        RestTemplate restTemplate = new RestTemplate();
-        var x = restTemplate.getForObject("http://localhost:8080/b2b/customer/customer-1", Object.class);
+//        RestTemplate restTemplate = new RestTemplate();
+//        var x = restTemplate.getForObject("http://localhost:8080/b2b/customer/customer-1", Object.class);
 
-            return new CustomerData(List.of(new CategoryDiscount(ProductCategory.TOYS, BigDecimal.valueOf(0.5))));
-
-
+        return new CustomerData(List.of(new CategoryDiscount(ProductCategory.TOYS, BigDecimal.valueOf(0.5))));
     }
 }
