@@ -1,6 +1,6 @@
 package org.demo.microservice.schoppingcart.schoppingcartapp.api;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.ShoppingCartOverviewService;
 import org.demo.microservice.schoppingcart.schoppingcartapp.core.input.Product;
